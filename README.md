@@ -1,2 +1,2 @@
 # AutoBackup
-Personal project designed to automatically backup files to a backup location upon startup.
+This is a personal project designed to automatically backup files to a backup location upon startup.
