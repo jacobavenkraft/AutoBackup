@@ -1,0 +1,13 @@
+C:\$ - source\AutoBackup\FrameworkLibrary\bin\Debug\net6.0-windows\FrameworkLibrary.deps.json
+C:\$ - source\AutoBackup\FrameworkLibrary\bin\Debug\net6.0-windows\FrameworkLibrary.dll
+C:\$ - source\AutoBackup\FrameworkLibrary\bin\Debug\net6.0-windows\FrameworkLibrary.pdb
+C:\$ - source\AutoBackup\FrameworkLibrary\obj\Debug\net6.0-windows\FrameworkLibrary.csproj.AssemblyReference.cache
+C:\$ - source\AutoBackup\FrameworkLibrary\obj\Debug\net6.0-windows\FrameworkLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\$ - source\AutoBackup\FrameworkLibrary\obj\Debug\net6.0-windows\FrameworkLibrary.AssemblyInfoInputs.cache
+C:\$ - source\AutoBackup\FrameworkLibrary\obj\Debug\net6.0-windows\FrameworkLibrary.AssemblyInfo.cs
+C:\$ - source\AutoBackup\FrameworkLibrary\obj\Debug\net6.0-windows\FrameworkLibrary.csproj.CoreCompileInputs.cache
+C:\$ - source\AutoBackup\FrameworkLibrary\obj\Debug\net6.0-windows\FrameworkLibrary.dll
+C:\$ - source\AutoBackup\FrameworkLibrary\obj\Debug\net6.0-windows\refint\FrameworkLibrary.dll
+C:\$ - source\AutoBackup\FrameworkLibrary\obj\Debug\net6.0-windows\FrameworkLibrary.pdb
+C:\$ - source\AutoBackup\FrameworkLibrary\obj\Debug\net6.0-windows\ref\FrameworkLibrary.dll
+C:\$ - source\AutoBackup\FrameworkLibrary\bin\Debug\net6.0-windows\appsettings.default.json
