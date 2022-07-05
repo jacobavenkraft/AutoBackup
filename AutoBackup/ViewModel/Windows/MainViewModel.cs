@@ -2,6 +2,7 @@
 using FrameworkLibrary.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 
 namespace AutoBackup.ViewModel.Windows
 {
@@ -10,6 +11,8 @@ namespace AutoBackup.ViewModel.Windows
         private readonly ILogger<MainViewModel> _logger;
         private ApplicationSettingsViewModel _settingsViewModel;
         private IPersistenceService<ApplicationSettingsModel> _persistenceService;
+
+        private IRelayCommand? _saveChangesCommand;
 
         public MainViewModel(ILogger<MainViewModel> logger, ApplicationSettingsViewModel settingsViewModel, IPersistenceService<ApplicationSettingsModel> persistenceService)
         {
@@ -20,10 +23,14 @@ namespace AutoBackup.ViewModel.Windows
             persistenceService.SaveSettings(_settingsViewModel.Model);
         }
 
+        public IRelayCommand SaveChangesCommand => _saveChangesCommand ??= new RelayCommand(DoSaveChanges);
+
         public ApplicationSettingsViewModel Settings
         {
             get => _settingsViewModel;
             set => SetProperty(ref _settingsViewModel, value);
         }
+
+        private void DoSaveChanges() => _persistenceService.SaveSettings(_settingsViewModel.Model);
     }
 }

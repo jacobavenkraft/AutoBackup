@@ -13,7 +13,6 @@ namespace AutoBackup.ViewModel
         private IRelayCommand? _addPathMappingCommand;
         private IRelayCommand? _deleteSelectedPathMappingCommand;
 
-
         public ApplicationSettingsViewModel(ApplicationSettingsModel model)
         {
             Model = model;
@@ -28,7 +27,13 @@ namespace AutoBackup.ViewModel
         public PathMappingViewModel? SelectedPathMapping
         {
             get => _selectedPathMapping;
-            set => SetProperty(ref _selectedPathMapping, value);
+            set
+            {
+                if (SetProperty(ref _selectedPathMapping, value))
+                {
+                    DeleteSelectedPathMappingCommand.NotifyCanExecuteChanged();
+                }
+            }
         }
 
         private void ClonePathMappings()
@@ -42,7 +47,9 @@ namespace AutoBackup.ViewModel
         private void DoAddPathMapping()
         {
             //TODO: should this also use dependency injection and/or a factory pattern?
-            PathMappings.Add(new PathMappingViewModel(new PathMappingModel()));
+            var newPathMappingModel = new PathMappingModel();
+            Model.PathMappings.Add(newPathMappingModel);
+            PathMappings.Add(new PathMappingViewModel(newPathMappingModel));
         }
 
         private void DoDeleteSelectedPathMapping()
@@ -54,6 +61,7 @@ namespace AutoBackup.ViewModel
 
             if (PathMappings.Contains(SelectedPathMapping))
             {
+                Model.PathMappings.Remove(SelectedPathMapping.Model);
                 PathMappings.Remove(SelectedPathMapping);
             }
         }

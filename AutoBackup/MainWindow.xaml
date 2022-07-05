@@ -3,10 +3,95 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:AutoBackup"
+        xmlns:models="clr-namespace:AutoBackup.Model"
+        xmlns:vm="clr-namespace:AutoBackup.ViewModel.Windows"
+        xmlns:vm2="clr-namespace:AutoBackup.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+        Title="Auto Backup" Height="450" Width="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding SaveChangesCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="Configuration">
+                <MenuItem Header="Add AutoBackup Path..." Command="{Binding Settings.AddPathMappingCommand}"></MenuItem>
+                <MenuItem Header="Remove AutoBackup Path..." Command="{Binding Settings.DeleteSelectedPathMappingCommand}"></MenuItem>
+                <Separator></Separator>
+                <MenuItem Header="Exit">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:CallMethodAction MethodName="Close"
+                                                TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <GroupBox Header="Configured Paths" Grid.Row="1" Margin="8,0,8,0">
+            <ListBox MinHeight="100" ItemsSource="{Binding Settings.PathMappings}"
+                     SelectedItem="{Binding Settings.SelectedPathMapping, Mode=TwoWay}"
+                     HorizontalContentAlignment="Stretch"
+                     Margin="8"
+                     ScrollViewer.CanContentScroll="True"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm2:PathMappingViewModel}">
+                        <Grid Margin="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock Margin="8,0,8,0" Text="Source" VerticalAlignment="Center"></TextBlock>
+                            <TextBox Margin="2,2,0,2" Grid.Column="1" Text="{Binding Source.Path, Mode=TwoWay}"></TextBox>
+                            <Button Margin="0,2,2,2" Grid.Column="2" 
+                                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                    Command="{Binding Source.SelectFolderCommand}">...</Button>
+                            
+                            <TextBlock Margin="8,0,8,0" Text="Target" VerticalAlignment="Center" Grid.Row="1"></TextBlock>
+                            <TextBox Margin="2,2,0,2" Grid.Column="1" Grid.Row="1" Text="{Binding Target.Path, Mode=TwoWay}"></TextBox>
+                            <Button Margin="0,2,2,2" Grid.Column="2" Grid.Row="1" 
+                                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                    Command="{Binding Target.SelectFolderCommand}">...</Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </GroupBox>
+        <GroupBox Header="Job Progress" Grid.Row="2" Margin="8">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ListBox Grid.Row="0" Margin="8,8,8,4" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
 
+
+                <Grid Grid.Row="1" Margin="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button MinHeight="23" Margin="4" Width="100">Refresh Jobs</Button>
+                    <Button MinHeight="23" Margin="4" Grid.Column="1" Width="100">Start Jobs</Button>
+                </Grid>
+            </Grid>
+        </GroupBox>
     </Grid>
 </Window>

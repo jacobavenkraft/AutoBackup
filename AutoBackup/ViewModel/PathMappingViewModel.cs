@@ -1,5 +1,6 @@
 ﻿using AutoBackup.Model;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System;
 
 namespace AutoBackup.ViewModel
 {
@@ -7,14 +8,13 @@ namespace AutoBackup.ViewModel
     {
         public PathMappingViewModel(PathMappingModel model)
         {
-            if (model == null)
-            {
-                throw new ArgumentNullException(nameof(model));
-            }
+            Model = model ?? throw new ArgumentNullException(nameof(model));
 
             Source = new SinglePathViewModel(model.Source);
             Target = new SinglePathViewModel(model.Target);
         }
+
+        public PathMappingModel Model { get; }
 
         public SinglePathViewModel Source { get; }
 

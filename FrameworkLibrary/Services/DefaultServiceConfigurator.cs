@@ -22,6 +22,7 @@ namespace FrameworkLibrary.Services
         {
             services.AddSingleton<IEnvironment, DefaultEnvironment>();
             services.AddSingleton<IFileSystemUtility, DefaultFileSystemUtility>();
+            services.AddSingleton<ICommonDialogService, CommonDialogService>();
         }
     }
 }

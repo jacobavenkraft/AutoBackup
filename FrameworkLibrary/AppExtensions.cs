@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using FrameworkLibrary.Options;
 using Microsoft.Extensions.Options;
+using CommonServiceLocator;
 
 namespace FrameworkLibrary
 {
@@ -44,6 +45,7 @@ namespace FrameworkLibrary
                     })
                     .ConfigureServices((context, services) =>
                     {
+
                         services.AddSingleton(services);
                         defaultConfigurator.ConfigureServices(services);
                         configurator.ConfigureServices(services);
@@ -56,6 +58,8 @@ namespace FrameworkLibrary
                     })
                     .Build();
             }
+
+            ServiceLocator.SetLocatorProvider(() => new ServiceLocatorService(_host.Services));
 
             application.Startup += async (s, e) => await StartupApplication();
             application.Exit += async (s, e) => await StopApplication();

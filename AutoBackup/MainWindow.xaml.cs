@@ -25,10 +25,10 @@ namespace AutoBackup
 
         public MainWindow(MainViewModel viewModel)
         {
-            ViewModel = viewModel;
+            DataContext = viewModel;
             InitializeComponent();
         }
 
-        public MainViewModel ViewModel { get; }
+        public MainViewModel? ViewModel => DataContext as MainViewModel;
     }
 }
