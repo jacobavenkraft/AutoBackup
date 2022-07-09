@@ -3,7 +3,7 @@ SequenceDiagram [frame=true framecolor=steelblue label="Status Service Sequence 
     lifeline "App Worker\nThread" as appworker
     lifeline "File Copy\nManager" as filecopymanager
     lifeline "Job Builder" as jobbuilder
-    lifeline "Job Scheduler" as jobScheduler
+    lifeline "Job Processor" as jobProcessor
     lifeline "Job Priority\nQueue" as jobqueue
     lifeline "Job Concurrent\nTask Scheduler" as taskScheduler
     lifeline "Job Executor" as jobexecutor
@@ -22,17 +22,17 @@ SequenceDiagram [frame=true framecolor=steelblue label="Status Service Sequence 
     filecopymanager -r-> appworker "(queued)"
 
     fragment loop "   processing loop   " {
-        activate jobScheduler
-        jobScheduler --> jobqueue "Get Count"
-        jobqueue -r-> jobScheduler "(count)"
-        jobScheduler --> jobqueue "Dequeue"
-        jobqueue -r-> jobScheduler "(IJob)"
+        activate jobProcessor
+        jobProcessor --> jobqueue "Get Count"
+        jobqueue -r-> jobProcessor "(count)"
+        jobProcessor --> jobqueue "Dequeue"
+        jobqueue -r-> jobProcessor "(IJob)"
 
-        fragment loop "   foreach discrete child job   " {
-            jobScheduler -a-> taskScheduler  "Enqueue IChildJob"
-            taskScheduler -r-> jobScheduler "(queued)"
+        fragment loop "   foreach queued child job   " {
+            jobProcessor -a-> taskScheduler  "Enqueue IChildJob"
+            taskScheduler -r-> jobProcessor "(queued)"
         }
-        deactivate jobScheduler
+        deactivate jobProcessor
     }
 
     fragment loop "      ThreadPool Processing         " {
