@@ -1,0 +1,44 @@
+SequenceDiagram [frame=true framecolor=steelblue label="Status Service Sequence Diagram"] {
+
+    lifeline "App Worker\nThread" as appworker
+    lifeline "File Copy\nManager" as filecopymanager
+    lifeline "Job Builder" as jobbuilder
+    lifeline "Job Scheduler" as jobScheduler
+    lifeline "Job Priority\nQueue" as jobqueue
+    lifeline "Job Concurrent\nTask Scheduler" as taskScheduler
+    lifeline "Job Executor" as jobexecutor
+    
+    appworker -a-> filecopymanager "     Enqueue Paths     "
+    filecopymanager --> jobbuilder "Build Job(s)"
+    jobbuilder -r-> filecopymanager "  (IEnumerable<IJob>)  "
+    filecopymanager --> jobqueue "Clear Queue"
+    jobqueue -r-> filecopymanager "(cleared)"
+
+    fragment loop "    foreach new IJob     " {
+        filecopymanager --> jobqueue "Enqueue IJob"
+        jobqueue -r-> filecopymanager "(queued)"
+    }
+    
+    filecopymanager -r-> appworker "(queued)"
+
+    fragment loop "   processing loop   " {
+        activate jobScheduler
+        jobScheduler --> jobqueue "Get Count"
+        jobqueue -r-> jobScheduler "(count)"
+        jobScheduler --> jobqueue "Dequeue"
+        jobqueue -r-> jobScheduler "(IJob)"
+
+        fragment loop "   foreach discrete child job   " {
+            jobScheduler -a-> taskScheduler  "Enqueue IChildJob"
+            taskScheduler -r-> jobScheduler "(queued)"
+        }
+        deactivate jobScheduler
+    }
+
+    fragment loop "      ThreadPool Processing         " {
+        activate taskScheduler
+        taskScheduler -a-> jobexecutor "Execute IChildJob"
+        jobexecutor -r-> taskScheduler "(done)"
+        deactivate taskScheduler
+    }
+}
