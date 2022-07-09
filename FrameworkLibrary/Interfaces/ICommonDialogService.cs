@@ -8,6 +8,6 @@ namespace FrameworkLibrary.Interfaces
 {
     public interface ICommonDialogService
     {
-        string? FolderPickerDialog(string startingDirectory = "", string title = "", string okButtonText = "");
+        string? FolderPickerDialog(string? startingDirectory = "", string? title = "", string? okButtonText = "");
     }
 }

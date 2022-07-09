@@ -1,7 +1,6 @@
 ﻿using FrameworkLibrary.Services;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Xunit;
 
 namespace UnitTests.FrameworkLibraryTests.ServicesTests

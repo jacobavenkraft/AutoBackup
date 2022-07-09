@@ -1,6 +1,7 @@
 ﻿using FrameworkLibrary.Interfaces;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System;
 
 namespace FrameworkLibrary.Services
 {
@@ -8,7 +9,7 @@ namespace FrameworkLibrary.Services
     {
         private readonly IFileSystemUtility _fileSystem;
         private readonly IEnvironment _environment;
-        private readonly ILogger<DefaultPersistenceService<TUserSettingsModel>> _logger;
+        private readonly ILogger<IPersistenceService<TUserSettingsModel>> _logger;
 
         static DefaultPersistenceService()
         {
@@ -19,7 +20,7 @@ namespace FrameworkLibrary.Services
             };
         }
 
-        public DefaultPersistenceService(ILogger<DefaultPersistenceService<TUserSettingsModel>> logger, IFileSystemUtility fileSystem, IEnvironment environment)
+        public DefaultPersistenceService(ILogger<IPersistenceService<TUserSettingsModel>> logger, IFileSystemUtility fileSystem, IEnvironment environment)
         {
             _fileSystem = fileSystem;
             _logger = logger;
@@ -37,11 +38,21 @@ namespace FrameworkLibrary.Services
             }
 
             var settingsJson = _fileSystem.ReadAllText(fileName);
-            var settingsModel = JsonConvert.DeserializeObject<TUserSettingsModel>(settingsJson);
+
+            TUserSettingsModel? settingsModel = null;
+            try
+            {
+                settingsModel = JsonConvert.DeserializeObject<TUserSettingsModel>(settingsJson);
+            }
+            catch (Exception exception)
+            {
+                _logger.LogWarning(exception, "Unable to deserialize file content.");
+                settingsModel = null;
+            }
 
             if (settingsModel == null)
             {
-                _logger.LogWarning($"Invalid content in settings file: [{fileName}].  Creating empty settings file.");
+                _logger.LogWarning($"Invalid content in settings file: [{fileName}].  Creating empty settings file. Content: [{settingsJson}]");
                 return new TUserSettingsModel();
             }
 

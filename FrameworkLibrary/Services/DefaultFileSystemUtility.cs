@@ -6,7 +6,7 @@ namespace FrameworkLibrary.Services
 {
     public class DefaultFileSystemUtility : IFileSystemUtility
     {
-        public void CreateDirectory(string path)
+        public void CreateDirectory(string? path)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -16,8 +16,13 @@ namespace FrameworkLibrary.Services
             Directory.CreateDirectory(path);
         }
 
-        public void CreateDirectoryChainIfNeeded(string path)
+        public void CreateDirectoryChainIfNeeded(string? path)
         {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return;
+            }
+
             var fileInfo = new FileInfo(path);
 
             if (fileInfo?.Directory == null)
@@ -31,7 +36,7 @@ namespace FrameworkLibrary.Services
             }
         }
 
-        public void DeleteDirectory(string path)
+        public void DeleteDirectory(string? path)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -44,9 +49,9 @@ namespace FrameworkLibrary.Services
             }
         }
 
-        public void DeleteFileIfExists(string path)
+        public void DeleteFileIfExists(string? path)
         {
-            if (!FileExists(path))
+            if (string.IsNullOrWhiteSpace(path) || !FileExists(path))
             {
                 return;
             }
@@ -61,9 +66,9 @@ namespace FrameworkLibrary.Services
             fileInfo.Delete();
         }
 
-        public bool FileExists(string path) => File.Exists(path);
+        public bool FileExists(string? path) => File.Exists(path);
 
-        public bool DirectoryExists(string path) => Directory.Exists(path);
+        public bool DirectoryExists(string? path) => Directory.Exists(path);
 
         public IEnumerable<string> GetDirectories(string path) => Directory.GetDirectories(path);
 

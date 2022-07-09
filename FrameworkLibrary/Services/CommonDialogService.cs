@@ -5,24 +5,35 @@ namespace FrameworkLibrary.Services
 {
     public class CommonDialogService : ICommonDialogService
     {
-        private IFileSystemUtility _fileSystemUtility;
+        public const string FallbackTitle = "Select Folder";
+        public const string FallbackOkButtonText = "Select";
 
-        public CommonDialogService(IFileSystemUtility fileSystemUtility)
+        private IFileSystemUtility _fileSystemUtility;
+        private IWindowFactory _windowFactory;
+
+        public CommonDialogService(IFileSystemUtility fileSystemUtility, IWindowFactory windowFactory)
         {
             _fileSystemUtility = fileSystemUtility;
+            _windowFactory = windowFactory;
         }
 
-        public string? FolderPickerDialog(string startingDirectory = "", string title = "", string okButtonText = "")
+        public string? FolderPickerDialog(string? startingDirectory = "", string? title = "", string? okButtonText = "")
         {
-            var folderPickerDialog = new FolderPickerDialog();
-            folderPickerDialog.Title = string.IsNullOrWhiteSpace(title) ? "Select Folder" : title;
+            var folderPickerDialog = _windowFactory.CreateWindow<IFolderPickerDialog>();
 
-            if (_fileSystemUtility.DirectoryExists(startingDirectory))
+            if (folderPickerDialog == null)
+            {
+                return null;
+            }
+
+            folderPickerDialog.Title = string.IsNullOrWhiteSpace(title) ? FallbackTitle : title;
+
+            if (!string.IsNullOrWhiteSpace(startingDirectory) && _fileSystemUtility.DirectoryExists(startingDirectory))
             {
                 folderPickerDialog.InputPath = startingDirectory;
             }
             
-            folderPickerDialog.OkButtonLabel = string.IsNullOrWhiteSpace(okButtonText) ? "Select" : okButtonText;
+            folderPickerDialog.OkButtonLabel = string.IsNullOrWhiteSpace(okButtonText) ? FallbackOkButtonText : okButtonText;
 
             if (folderPickerDialog.ShowDialog() == true)
             {

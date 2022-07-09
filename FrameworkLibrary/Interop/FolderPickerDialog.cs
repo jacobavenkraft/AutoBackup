@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -16,7 +12,7 @@ namespace FrameworkLibrary.Interop
     /// of StackOverflow which does not require additional NuGet packages and should work in .NET 6.0
     /// https://stackoverflow.com/questions/11624298/how-do-i-use-openfiledialog-to-select-a-folder
     /// </summary>
-    public class FolderPickerDialog
+    public class FolderPickerDialog : IFolderPickerDialog
     {
         public virtual string ResultPath { get; protected set; } = string.Empty;
         public virtual string ResultName { get; protected set; } = string.Empty;
