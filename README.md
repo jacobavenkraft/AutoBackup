@@ -12,3 +12,10 @@ This is an exercise.  It is meant to be a fun project to sharpen some of my deve
 
 # Additional notes:
 Included in this repo is a FrameworkLibrary.  The idea behind the FrameworkLibrary is that it would provide an easy way to set up dependency injection as well as a set of common classes and interfaces designed to facilitate unit testing.  Ultimately, I should be able to break out the FrameworkLibrary into its own repo, install it via NuGet, create a new application that uses it and simply call App.Initialize<ConfigurationClass>() to get everything started using the proper configuration options for my concrete application.
+
+# Progress
+
+1.  Create FrameworkLibrary and basic app structure.  Test.
+2.  Add unit tests for many of the FrameworkLibrary elements.
+3.  Flesh out application to allow configuration of paths.
+4.  Start building JobFramework to allow for processing of the file copy jobs.
