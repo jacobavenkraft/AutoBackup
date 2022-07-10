@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FrameworkLibrary\FrameworkLibrary.csproj" />
+    <ProjectReference Include="..\JobFramework\JobFramework.csproj" />
   </ItemGroup>
 
 </Project>
