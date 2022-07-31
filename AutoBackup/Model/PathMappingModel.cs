@@ -1,9 +1,11 @@
-﻿namespace AutoBackup.Model
-{
-    public class PathMappingModel
-    {
-        public SinglePathModel Source { get; set; } = new SinglePathModel();
+﻿using AutoBackup.Interfaces;
 
-        public SinglePathModel Target { get; set; } = new SinglePathModel();
+namespace AutoBackup.Model
+{
+    public class PathMappingModel : IPathMap
+    {
+        public IPath Source { get; set; } = new SinglePathModel();
+
+        public IPath Target { get; set; } = new SinglePathModel();
     }
 }

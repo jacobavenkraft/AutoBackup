@@ -1,4 +1,5 @@
-﻿using AutoBackup.Model;
+﻿using AutoBackup.Interfaces;
+using AutoBackup.Model;
 using CommonServiceLocator;
 using FrameworkLibrary.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,9 +14,9 @@ namespace AutoBackup.ViewModel
         private IRelayCommand? _selectFolderCommand;
         private ICommonDialogService _commonDialogService;
 
-        public SinglePathModel Model { get; }
+        public IPath Model { get; }
 
-        public SinglePathViewModel(SinglePathModel model)
+        public SinglePathViewModel(IPath model)
         {
             Model = model ?? throw new ArgumentNullException(nameof(model));
             _commonDialogService = ServiceLocator.Current.GetService<ICommonDialogService>() ?? throw new ArgumentNullException(nameof(_commonDialogService));

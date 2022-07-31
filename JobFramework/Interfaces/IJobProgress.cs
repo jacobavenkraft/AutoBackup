@@ -1,10 +1,10 @@
 ﻿namespace JobFramework.Interfaces
 {
-    public delegate void JobProgressChangedDelegate(IJobProgress job, int oldProgress, int newProgress);
+    public delegate void JobProgressChangedDelegate(IJobProgress job, double oldProgress, double newProgress);
 
     public interface IJobProgress
     {
-        event JobProgressChangedDelegate ProgressChanged;
+        event JobProgressChangedDelegate? ProgressChanged;
 
         CancellationToken CancellationToken { get; }
 
@@ -12,10 +12,12 @@
 
         int ErrorRetryDelaySeconds { get; }
 
-        int Progress { get; }
+        int ProgressPercent { get; }
+
+        double Progress { get; }
 
         void InitializeProgress();
 
-        void UpdateProgress(int newProgress);
+        void UpdateProgress(double newProgress);
     }
 }

@@ -19,11 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FrameworkLibrary\FrameworkLibrary.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\JobFramework\JobFramework.csproj" />
   </ItemGroup>
 
   <ItemGroup>

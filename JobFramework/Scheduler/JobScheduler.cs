@@ -7,7 +7,7 @@ namespace JobFramework.Scheduler
     /// Given an IJob, build the task or subtasks needed to execute that job and run them on the ThreadPool using the provided
     /// TTaskScheduler generic TaskScheduler type.  Each discrete job will be sent to TJobExecutor for execution while each composite
     /// job will be broken down into its discrete child jobs before those discrete jobs are sent to the TJobExecutor.
-    /// NOTE: jobs may run in parallel
+    /// NOTE: discrete jobs may run in parallel
     /// </summary>
     /// <typeparam name="TJobExecutor">executes the job</typeparam>
     /// <typeparam name="TTaskScheduler">schedules job task on the thread pool</typeparam>
